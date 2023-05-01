@@ -45,6 +45,9 @@ export const WelcomeLayout: React.FC = () => {
       nav(linkMap[location.pathname])
     }
   }, [direction, location.pathname, linkMap])
+  const onSkip = () => {
+    localStorage.setItem('hasRead', 'yes')
+  }
   return (
       <div className="bg-#5e34bf" h-screen flex flex-col items-stretch pb-16px>
         <header shrink-0 text-center >
@@ -61,7 +64,7 @@ export const WelcomeLayout: React.FC = () => {
         </main>
         <footer shrink-0 text-center text-24px text-white grid grid-cols-3 grid-rows-1>
           <Link to={linkMap[location.pathname]} style={{ gridArea: '1 / 2 / 2 / 3' }}>下一页</Link>
-          <Link to='/welcome/1' style={{ gridArea: '1 / 3 / 2 / 4' }}>跳过</Link>
+          <Link to='/welcome/1' style={{ gridArea: '1 / 3 / 2 / 4' }} onClick={onSkip}>跳过</Link>
         </footer>
       </div>
   )

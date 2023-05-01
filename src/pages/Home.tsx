@@ -1,7 +1,16 @@
+import useSWR from 'swr'
+import axios from 'axios'
 import pot from '../assets/images/pot.svg'
 import add from '../assets/images/add.svg'
 
 export const Home: React.FC = () => {
+  const { data: meData, error: meError } = useSWR('/api/v1/me', (path) => {
+    return axios.get(path)
+  })
+  const { data: itemData, error: itemError } = useSWR(meData ? '/api/v1/item' : null, (path) => {
+    return axios.get(path)
+  })
+  console.log(meData, itemData, meError, itemError)
   return <div>
     <div flex justify-center items-center>
       <img mt-20vh mb-20vh width="128" height="130" src={pot} />

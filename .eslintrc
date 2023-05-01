@@ -1,6 +1,10 @@
 {
   "extends": "@antfu",
   "rules":{
-    "@typescript-eslint/no-unused-vars":"off"
+    "@typescript-eslint/no-unused-vars":"off",
+    "curly":"off",
+    "max-statements-per-line": ["error", { "max": 2 }],
+    "@typescript-eslint/brace-style":"off",
+    "antfu/top-level-function":"off"
   }
 }

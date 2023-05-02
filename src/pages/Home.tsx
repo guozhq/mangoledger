@@ -2,8 +2,13 @@ import useSWR from 'swr'
 import axios from 'axios'
 import pot from '../assets/images/pot.svg'
 import add from '../assets/images/add.svg'
+import { useTitle } from '../hooks/useTitle'
 
-export const Home: React.FC = () => {
+interface Props {
+  title?: string
+}
+export const Home: React.FC<Props> = (props) => {
+  useTitle(props.title)
   const { data: meData, error: meError } = useSWR('/api/v1/me', (path) => {
     return axios.get(path)
   })

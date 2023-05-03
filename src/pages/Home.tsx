@@ -1,21 +1,27 @@
 import useSWR from 'swr'
-import axios from 'axios'
+import { Navigate } from 'react-router-dom'
 import pot from '../assets/images/pot.svg'
 import add from '../assets/images/add.svg'
 import { useTitle } from '../hooks/useTitle'
+import { ajax } from '../lib/ajax'
 
 interface Props {
   title?: string
 }
 export const Home: React.FC<Props> = (props) => {
   useTitle(props.title)
-  const { data: meData, error: meError } = useSWR('/api/v1/me', (path) => {
-    return axios.get(path)
-  })
-  const { data: itemData, error: itemError } = useSWR(meData ? '/api/v1/item' : null, (path) => {
-    return axios.get(path)
-  })
-  console.log(meData, itemData, meError, itemError)
+  const { data: meData, error: meError, isLoading: meLoading } = useSWR('/api/v1/me', async path =>
+    (await ajax.get<Resource<User>>(path)).data.resource
+  )
+  const { data: itemsData, error: itemsError, isLoading: itemsLoading } = useSWR(meData ? '/api/v1/item' : null, async path =>
+    (await ajax.get<Resources<Item>>(path)).data
+  )
+  if (meLoading || itemsLoading) {
+    return <div>加载中</div>
+  }
+  if (itemsData?.resources[0]) {
+    return <Navigate to="/items"/>
+  }
   return <div>
     <div flex justify-center items-center>
       <img mt-20vh mb-20vh width="128" height="130" src={pot} />

@@ -1,9 +1,10 @@
 import useSWR from 'swr'
 import { Navigate } from 'react-router-dom'
 import pot from '../assets/images/pot.svg'
-import add from '../assets/images/add.svg'
 import { useTitle } from '../hooks/useTitle'
 import { ajax } from '../lib/ajax'
+import { Loading } from '../components/Loading'
+import { AddItemFloatButton } from '../components/AddItemFloatButton'
 
 interface Props {
   title?: string
@@ -17,7 +18,7 @@ export const Home: React.FC<Props> = (props) => {
     (await ajax.get<Resources<Item>>(path)).data
   )
   if (meLoading || itemsLoading) {
-    return <div>加载中</div>
+    return <Loading />
   }
   if (itemsData?.resources[0]) {
     return <Navigate to="/items"/>
@@ -31,9 +32,6 @@ export const Home: React.FC<Props> = (props) => {
         rounded-8px
       >开始记账</button>
     </div>
-    <button p-4px w-56px h-56px bg="#5C33BE" rounded="50%" b-none text-white
-      text-6xl fixed bottom-16px right-16px>
-      <img src={add} max-w="100%" max-h="100%" />
-    </button>
+    <AddItemFloatButton />
   </div>
 }

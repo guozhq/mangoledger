@@ -7,6 +7,6 @@ declare module 'react' {
     bg?:string
     rounded?:string
     fixed?:boolean
-    cursour-pointer?:boolean
+    b?:string
   }
 }

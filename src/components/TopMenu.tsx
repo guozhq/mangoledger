@@ -1,21 +1,43 @@
+import { useState } from 'react'
+import { animated, useSpring } from '@react-spring/web'
 import { CurrentUser } from './TopMenu/CurrentUser'
 import { Menu } from './TopMenu/Menu'
 
 interface Props {
   onClickMask?: () => void
+  visible?: boolean
 }
 export const TopMenu: React.FC<Props> = (props) => {
-  const { onClickMask } = props
+  const { onClickMask, visible } = props
+  const [maskVisible, setMaskVisible] = useState(false)
+  const maskStyles = useSpring({
+    opacity: visible ? 1 : 0,
+    onStart: ({ value }) => {
+      if (value.opacity < 0.1) { setMaskVisible(true) }
+    },
+    onRest: ({ value }) => {
+      if (value.opacity < 0.1) { setMaskVisible(false) }
+    }
+  })
+  const menuStyles = useSpring({
+    opacity: visible ? 1 : 0,
+    transform: visible ? 'translateX(0%)' : 'translateX(-100%)',
+    config: { duration: 300 }
+  })
+  const styles = {
+    ...maskStyles,
+    visibility: (maskVisible ? 'visible' : 'hidden') as 'visible' | 'hidden'
+  }
   return (
     <>
-      <div fixed top-0 left-0 w-full h-full className="bg-black:75"
-        z="[calc(var(--z-menu)-1)]" onClick={(onClickMask)}
+      <animated.div fixed top-0 left-0 w-full h-full className="bg-black:75"
+        style={styles} z="[calc(var(--z-menu)-1)]" onClick={(onClickMask)}
       />
-      <div fixed top-0 left-0 w="70vw" max-w-20em h-screen flex flex-col b-3px b-red
-        z="[var(--z-menu)]">
+      <animated.div fixed top-0 left-0 w="70vw" max-w-20em h-screen flex flex-col b-3px b-red
+        style={menuStyles} z="[var(--z-menu)]">
         <CurrentUser className="grow-0 shrink-0" />
         <Menu className="grow-1 shrink-1" />
-      </div>
+      </animated.div>
     </>
   )
 }

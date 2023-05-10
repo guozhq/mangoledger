@@ -8,5 +8,7 @@ declare module 'react' {
     rounded?:string
     fixed?:boolean
     b?:string
+    w?:string
+    z?:string
   }
 }

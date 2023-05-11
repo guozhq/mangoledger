@@ -10,5 +10,6 @@ declare module 'react' {
     b?:string
     w?:string
     z?:string
+    block?: boolean
   }
 }

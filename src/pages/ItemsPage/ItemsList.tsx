@@ -1,8 +1,13 @@
 import useSWRInfinite from 'swr/infinite'
+import styled from 'styled-components'
 import { ajax } from '../../lib/ajax'
 
 interface Props {
 }
+const Div = styled.div`
+  padding:16px;
+  text-align: center;
+`
 const getKey = (pageIndex: number, prev: Resources<Item>) => {
   if (prev) {
     const sendCount = (prev.pager.page - 1) * prev.pager.per_page + prev.resources.length
@@ -18,8 +23,14 @@ export const ItemsList: React.FC<Props> = () => {
   const onLoadMore = () => {
     setSize(size + 1)
   }
+  const isLoadingInitiaialData = !data && !error
+  const isLoadingMore = data?.[size - 1] === undefined && !error
+  const isLoading = isLoadingInitiaialData || isLoadingMore
   if (!data) {
-    return <span>'还没搞定'</span>
+    return <>
+      {isLoading && <Div>数据加载中。。。</Div>}
+      {error && <Div>数据加载失败，请刷新页面</Div>}
+    </>
   } else {
     const last = data[data.length - 1]
     const { page, per_page, count } = last.pager
@@ -46,12 +57,13 @@ export const ItemsList: React.FC<Props> = () => {
         </li>
         ) })}
     </ol>
-    <div p-16px>
-      {hasMore
-        ? <button j-btn onClick={onLoadMore}>加载更多</button>
-        : <button j-btn >没有更多数据了</button>
-      }
-    </div>
+    {error && <Div>数据加载失败，请刷新页面</Div>}
+    {hasMore
+      ? isLoading
+        ? <Div>数据加载中。。。</Div>
+        : <Div><button j-btn onClick={onLoadMore}>加载更多</button></Div>
+      : <Div>没有更多数据了</Div>
+    }
   </>
   }
 }

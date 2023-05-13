@@ -3,17 +3,28 @@ import { ajax } from '../../lib/ajax'
 
 interface Props {
 }
-const getKey = (pageIndex: number) => {
+const getKey = (pageIndex: number, prev: Resources<Item>) => {
+  if (prev) {
+    const sendCount = (prev.pager.page - 1) * prev.pager.per_page + prev.resources.length
+    const count = prev.pager.count
+    if (sendCount >= count) { return null }
+  }
   return `/api/v1/items?page=${pageIndex + 1}`
 }
-const items: Item[] = []
 export const ItemsList: React.FC<Props> = () => {
-  const { data, error } = useSWRInfinite(
+  const { data, error, size, setSize } = useSWRInfinite(
     getKey, async path => (await ajax.get<Resources<Item>>(path)).data
   )
-  return <div>
+  const onLoadMore = () => {
+    setSize(size + 1)
+  }
+  if (!data) {
+    return <span>'还没搞定'</span>
+  } else {
+    return <>
     <ol>
-      {items.map(item =>
+      {data.map(({ resources }) => {
+        return resources.map(item =>
         <li key={item.id} grid grid-cols="[auto_1fr_auto]" grid-rows-2 px-16px py-8px gap-x-12px
           border-b-1 b="#EEE">
           <div row-start-1 col-start-1 row-end-3 col-end-2 text-24px w-48px h-48px
@@ -27,13 +38,14 @@ export const ItemsList: React.FC<Props> = () => {
             2011年1月1日
           </div>
           <div row-start-1 col-start-3 row-end-2 col-end-4 color="#53A867">
-            ￥999
+            ￥{item.amount / 100}
           </div>
         </li>
-      )}
+        ) })}
     </ol>
     <div p-16px>
-      <button j-btn>加载更多</button>
+      <button j-btn onClick={onLoadMore}>加载更多</button>
     </div>
-  </div>
+  </>
+  }
 }

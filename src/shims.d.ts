@@ -11,5 +11,6 @@ declare module 'react' {
     w?:string
     z?:string
     block?: boolean
+    'focus:shadow'?: boolean
   }
 }

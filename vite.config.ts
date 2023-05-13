@@ -14,6 +14,6 @@ export default defineConfig(({ command }) => ({
       mockPath: 'mock',
       localEnabled: command === 'serve',
     }),
-    svgsprites({ noOptimizeList: ['chart', 'category', 'export', 'noty'] })
+    svgsprites({ noOptimizeList: ['logo', 'chart', 'category', 'export', 'noty'] })
   ],
 }))

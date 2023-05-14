@@ -6,6 +6,7 @@
     "max-statements-per-line": ["error", { "max": 2 }],
     "@typescript-eslint/brace-style":"off",
     "antfu/top-level-function":"off",
-    "@typescript-eslint/comma-dangle":"off"
+    "@typescript-eslint/comma-dangle":"off",
+    "@typescript-eslint/consistent-type-definitions":"off"
   }
 }

@@ -11,7 +11,7 @@ export const SignInPage: React.FC = () => {
     e.preventDefault()
     const error = validate(data, [
       { key: 'email', type: 'required', message: '请输入邮箱地址' },
-      { key: 'email', type: 'pattern', regex: '/.+@.+/', message: '邮箱格式不正确' },
+      { key: 'email', type: 'pattern', regex: /.+@.+/, message: '邮箱格式不正确' },
       { key: 'code', type: 'required', message: '请输入验证码' },
       { key: 'code', type: 'length', min: 4, max: 4, message: '验证码必须是4位' },
     ])

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { FormError } from '../lib/validate'
 
-interface Data {
+type Data = {
   email: string
   code: string
 }
@@ -36,7 +36,6 @@ export const useSignInStore = create<SignIn>((set, get) => (
       set(state => ({
         ...state,
         error: {
-          ...state.error,
           ...error
         }
       }))

@@ -27,7 +27,7 @@ export const WelcomeLayout: React.FC = () => {
     },
     enter: { transform: 'translateX(0%)' },
     leave: { transform: 'translateX(-100%)' },
-    config: { duration: 1000 },
+    config: { duration: 300 },
     onStart: () => {
       setextraStyle({ position: 'absolute' })
     },
@@ -37,7 +37,7 @@ export const WelcomeLayout: React.FC = () => {
     },
   })
   const main = useRef<HTMLElement>(null)
-  const { direction } = useSwipe(main, { onTouchStart: e => e.preventDefault() })
+  const { direction } = useSwipe(main)
   const nav = useNavigate()
   useEffect(() => {
     if (direction === 'left') {

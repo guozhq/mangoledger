@@ -1,7 +1,7 @@
 import { animated, useTransition } from '@react-spring/web'
 import type { ReactNode } from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation, useNavigate, useOutlet } from 'react-router-dom'
+import { useLocation, useNavigate, useOutlet } from 'react-router-dom'
 import logo from '../assets/images/mangosteen.svg'
 import { useSwipe } from '../hooks/useSwipe'
 import { useLocalStore } from '../stores/useLocalStore'
@@ -49,10 +49,12 @@ export const WelcomeLayout: React.FC = () => {
   const { setHasReadWelcomes } = useLocalStore()
   const onSkip = () => {
     setHasReadWelcomes(true)
+    nav('welcome/1')
   }
   return (
       <div className="bg-#5e34bf" hc-screen flex flex-col items-stretch pb-16px>
-        <header shrink-0 text-center >
+        <span fixed text-white top-16px right-16px text-32px onClick={onSkip}>跳过</span>
+        <header shrink-0 text-center pt-64px>
           <img src={ logo } w-64px h-69px />
           <h1 color="#D4D4EE" text-32px>React</h1>
         </header>
@@ -64,10 +66,6 @@ export const WelcomeLayout: React.FC = () => {
             </div>
           </animated.div>)}
         </main>
-        <footer shrink-0 text-center text-24px text-white grid grid-cols-3 grid-rows-1>
-          <Link to={linkMap[location.pathname]} style={{ gridArea: '1 / 2 / 2 / 3' }}>下一页</Link>
-          <Link to='/welcome/1' style={{ gridArea: '1 / 3 / 2 / 4' }} onClick={onSkip}>跳过</Link>
-        </footer>
       </div>
   )
 }

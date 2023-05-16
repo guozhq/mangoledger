@@ -21,6 +21,7 @@
     "sass": "1.62.1",
     "styled-components": "5.3.10",
     "swr": "2.1.5",
+    "vh-check": "2.0.5",
     "zustand": "4.3.7"
   },
   "devDependencies": {

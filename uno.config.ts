@@ -12,6 +12,9 @@ export default defineConfig({
     'j-form': 'px-16px flex flex-col gap-y-24px children-flex children-flex-col',
     'j-form-label': 'text-18px mb-8px',
   },
+  rules: [
+    ['hc-screen', { height: 'calc(100vh - var(--vh-offset, 0px))' }]
+  ],
   safelist: [],
   presets: [
     presetUno(),

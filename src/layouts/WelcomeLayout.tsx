@@ -51,7 +51,7 @@ export const WelcomeLayout: React.FC = () => {
     setHasReadWelcomes(true)
   }
   return (
-      <div className="bg-#5e34bf" h-screen flex flex-col items-stretch pb-16px>
+      <div className="bg-#5e34bf" hc-screen flex flex-col items-stretch pb-16px>
         <header shrink-0 text-center >
           <img src={ logo } w-64px h-69px />
           <h1 color="#D4D4EE" text-32px>React</h1>

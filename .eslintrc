@@ -1,12 +1,18 @@
 {
   "extends": "@antfu",
-  "rules":{
-    "@typescript-eslint/no-unused-vars":"off",
-    "curly":"off",
-    "max-statements-per-line": ["error", { "max": 2 }],
-    "@typescript-eslint/brace-style":"off",
-    "antfu/top-level-function":"off",
-    "@typescript-eslint/comma-dangle":"off",
-    "@typescript-eslint/consistent-type-definitions":"off"
+  "rules": {
+    "curly": "off",
+    "@typescript-eslint/brace-style": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "vars": "local",
+        "args": "none",
+        "ignoreRestSiblings": true,
+        "caughtErrors": "none"
+      }
+    ],
+    "@typescript-eslint/comma-dangle": "off"
   }
 }

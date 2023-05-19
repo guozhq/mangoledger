@@ -1,21 +1,60 @@
 import { useState } from 'react'
 import { Icon } from '../../components/Icon'
-import { Popup } from '../../components/Popup'
+import { usePopup } from '../../hooks/usePopup'
 
 type Props = {
   className?: string
 }
 export const DateAndAmount: React.FC<Props> = (props) => {
   const { className } = props
-  const [visible, setVisible] = useState(false)
-  const onClickDate = () =>{
-    setVisible(!visible)
-  }
+  const [isTouching, setIsTouching] = useState(false)
+  const [initY, setInitY] = useState(-1)
+  const [translateY, setTranslateY] = useState(0)
+  const {popup, toggle} = usePopup(<div h-50vh overflow-hidden relative
+  onTouchStart={(e)=>{
+    setIsTouching(true)
+    setInitY(e.touches[0].clientY)
+  }}
+  onTouchMove={(e)=>{
+    if(isTouching){
+      const y = e.touches[0].clientY
+      const dy = y - initY
+      setTranslateY(translateY + dy)
+      setInitY(y)
+    }
+  }} 
+  onTouchEnd={()=>{
+    setIsTouching(false)
+  }}
+  >
+    <div b-1 b-red h-36px absolute top="[calc(50%-18px)]" w-full />
+    <div b-1 b-red h-36px absolute top="[calc(50%-18px)]" w-full>
+      <ol style={{ transform:`translateY(${translateY}px)`}} children-h-36px children-leading-36px>
+        <li>2013</li>
+        <li>2012</li>
+        <li>2011</li>
+        <li>2010</li>
+        <li>2009</li>
+        <li>2008</li>
+        <li>2007</li>
+        <li>2006</li>
+        <li>2005</li>
+        <li>2004</li>
+        <li>2003</li>
+        <li>2002</li>
+        <li>2001</li>
+        <li>2000</li>
+        <li>1999</li>
+        <li>1998</li>
+        <li>1997</li>
+      </ol>
+    </div>
+    </div>)
   return (
     <>
     <div className={className}>
       <div flex p-t-15px p-b-16px px-16px border-t-1px border-t="#ddd" gap-x-8px items-center>
-        <span flex gap-x-8px items-center onClick={onClickDate}>
+        <span flex gap-x-8px items-center onClick={toggle}>
           <Icon name="calendar" className="w-24px h-24px grow-0 shrink-0" />
           <span grow-0 shrink-0 text-12px color="#999">2001-02-03</span>
         </span>
@@ -40,7 +79,7 @@ export const DateAndAmount: React.FC<Props> = (props) => {
         <button row-start-3 col-start-4 row-end-5 col-end-5>提交</button>
       </div>
     </div>
-    <Popup visible={visible} onClickMask={()=>setVisible(false)}/>
+    {popup}
     </>
   )
 }

@@ -1,19 +1,31 @@
 import { useState } from "react";
-import { Time } from "../lib/time";
+import { Time, time } from "../lib/time";
 
 type Props = {
   start?: Date
   end?:Date
   value?:Date
+  itemHeight?:number
 }
 
 export const DatePicker: React.FC<Props>=(props)=>{
-  const {start, end, value} = props
-  const t = new Time()
-  console.log(t.add(10, 'years').format('yyyy年MM月dd日 HH:mm:ss.fff'))
+  const {start, end, value, itemHeight=36} = props
+  const startTime = start ? time(start) :time().add(-10 , 'year')
+  const endTime = end ? time(end) : time().add(10,'year')
+  const valueTime = value ? time(value):time()
+  if(endTime.timestamp <= startTime.timestamp){
+    throw new Error('结束时间必须晚于开始时间')
+  }
+  const yearList = Array.from({length:endTime.year - startTime.year}).map((_, index)=> startTime.year + index)
+  const index = yearList.indexOf(valueTime.year)
   const [isTouching, setIsTouching] = useState(false)
   const [initY, setInitY] = useState(-1)
-  const [translateY, setTranslateY] = useState(0)
+  const [translateY, _setTranslateY] = useState(index * -itemHeight)
+  const setTranslateY = (y:number) =>{
+    y = Math.min(y,0)
+    y = Math.max(y,(yearList.length - 1) * -itemHeight)
+    _setTranslateY(y)
+  }
   return (
     <div h-50vh overflow-hidden relative
     onTouchStart={(e)=>{
@@ -29,35 +41,21 @@ export const DatePicker: React.FC<Props>=(props)=>{
       }
     }} 
     onTouchEnd={()=>{
-      const remainder = translateY % 36
+      const remainder = translateY % itemHeight
       let y = translateY - remainder
-      if (Math.abs(remainder) > 18) {
-        y += 36 * (remainder > 0 ? 1 : -1)
+      if (Math.abs(remainder) > 18 ) {
+        y += itemHeight * (remainder > 0 ? 1 : -1)
       }
       setTranslateY(y)
       setIsTouching(false)
     }}
     >
-      <div b-1 b-red h-36px absolute top="[calc(50%-18px)]" w-full />
-      <div b-1 b-red h-36px absolute top="[calc(50%-18px)]" w-full>
-        <ol style={{ transform:`translateY(${translateY}px)`}} children-h-36px children-leading-36px>
-          <li>2013</li>
-          <li>2012</li>
-          <li>2011</li>
-          <li>2010</li>
-          <li>2009</li>
-          <li>2008</li>
-          <li>2007</li>
-          <li>2006</li>
-          <li>2005</li>
-          <li>2004</li>
-          <li>2003</li>
-          <li>2002</li>
-          <li>2001</li>
-          <li>2000</li>
-          <li>1999</li>
-          <li>1998</li>
-          <li>1997</li>
+      <div b-1 b-red absolute top="50%" w-full style={{height:itemHeight,transform:`translateY(${-itemHeight /2}px)`}} />
+      <div absolute top="50%" w-full style={{transform:`translateY(${-itemHeight /2}px)`}}>
+        <ol style={{ transform:`translateY(${translateY}px)`}} text-center children-flex children-items-center>
+          {yearList.map(year=> 
+          <li key={year} style={{height:itemHeight }}>{year}</li>
+          )}
         </ol>
       </div>
       </div>

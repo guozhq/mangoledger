@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Time, time } from "../lib/time";
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
 
 export const DatePicker: React.FC<Props> =(props)=>{
   const {start, end, value, onChange} = props
+ 
   const startTime = start ? time(start) :time().add(-10 , 'year')
   const endTime = end ? time(end) : time().add(10,'year')
   if(endTime.timestamp <= startTime.timestamp){
@@ -42,6 +43,10 @@ type ColumnProps = {
 }
 export const Column: React.FC<ColumnProps> =(props)=>{
   const {items, itemHeight=36, className, value, onChange} = props
+  useEffect(()=>{
+    const index = items.indexOf(value)
+    setTranslateY(index * -itemHeight)
+  }, [value])
   const index = items.indexOf(value)
   const [isTouching, setIsTouching] = useState(false)
   const [initY, setInitY] = useState(-1)

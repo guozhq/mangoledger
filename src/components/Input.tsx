@@ -1,7 +1,8 @@
+import { ReactNode } from 'react'
 import { EmojiInput } from './Input/EmojiInput'
 
 type Props = {
-  label: string
+  label: string | ReactNode
   placeholder?: string
   type?: 'text' | 'emoji'
   value?: string

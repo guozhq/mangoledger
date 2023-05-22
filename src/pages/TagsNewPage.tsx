@@ -1,9 +1,7 @@
 import { FormEventHandler, useEffect, useState } from "react";
-import { emojis } from "../lib/emojis";
 import { Gradient } from "../components/Gradient";
 import { Icon } from "../components/Icon";
 import { TopNav } from "../components/TopNav";
-import s from './TagsNewPage.module.scss'
 import { Input } from "../components/Input";
 import { useSearchParams } from "react-router-dom";
 import { validate, hasError } from "../lib/validate";

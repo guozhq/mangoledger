@@ -7,6 +7,7 @@ import { useSignInStore } from '../stores/useSignInStore'
 import { hasError, validate } from '../lib/validate'
 import { ajax } from '../lib/ajax'
 import { Input } from '../components/Input'
+import axios from 'axios'
 
 export const SignInPage: React.FC = () => {
   const { data, error, setData, setError } = useSignInStore()
@@ -26,7 +27,7 @@ export const SignInPage: React.FC = () => {
       nav('/home')
     }
   }
-  const onClickCode = () =>{
+  const onClickCode = async () =>{
     // 当点击发送验证码的时候，我们先校验一下邮箱地址格式是否正确
     const newError = validate({email:data.email},[
       {key: 'email', type:'pattern', regex: /^.+@.+$/, message:'邮箱地址格式不正确'}
@@ -35,7 +36,9 @@ export const SignInPage: React.FC = () => {
     if(hasError(newError)){
       
     }else{
-
+      const response = await axios.post('http://121.196.236.94:8080/api/v1/validation_codes', {
+	      email:data.email
+      })
     }
   }
   return (

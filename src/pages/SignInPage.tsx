@@ -30,6 +30,7 @@ export const SignInPage: React.FC = () => {
   const onClickCode = async () =>{
     // 当点击发送验证码的时候，我们先校验一下邮箱地址格式是否正确
     const newError = validate({email:data.email},[
+      { key: 'email', type: 'required', message: '请输入邮箱地址' },
       {key: 'email', type:'pattern', regex: /^.+@.+$/, message:'邮箱地址格式不正确'}
     ])
     setError(newError)

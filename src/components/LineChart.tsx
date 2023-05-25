@@ -8,10 +8,13 @@ export const LineChart: React.FC<Props> = (props) => {
   const {className,items} = props
   const xItems = items?.map(item => item.x)
   const yItems = items?.map(item => item.y)
+  const initialized = useRef(false)
   const div = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (!div.current) { return }
+    if (initialized.current) { return }
     const myChart = echarts.init(div.current)
+    initialized.current = true
     const option = {
       tooltip: {
         trigger: 'axis',
@@ -60,6 +63,6 @@ export const LineChart: React.FC<Props> = (props) => {
     myChart.setOption(option)
   })
   return (
-    <div ref={div} h-400px className={className}></div>
+    <div ref={div} className={className}></div>
   )
 }

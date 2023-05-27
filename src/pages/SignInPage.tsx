@@ -12,6 +12,10 @@ import axios from 'axios'
 export const SignInPage: React.FC = () => {
   const { data, error, setData, setError } = useSignInStore()
   const nav = useNavigate()
+  const onSubmitError = (err: AxiosError<{ errors: FormError<typeof data> }>) => {
+    setError(err.response?.data?.errors ?? {})
+    throw error
+  }
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     const error = validate(data, [
@@ -24,6 +28,11 @@ export const SignInPage: React.FC = () => {
     if (!hasError(error)) {
       await ajax.post('/api/v1/session', data)
       // 保存 JWT 作为登录凭证
+      const response = await ajax.post<{ jwt: string }>('http://121.196.236.94:8080/api/v1/session', data)
+        .catch(onSubmitError)
+      const jwt = response.data.jwt
+      console.log('jwt', jwt)
+      localStorage.setItem('jwt', jwt)
       nav('/home')
     }
   }

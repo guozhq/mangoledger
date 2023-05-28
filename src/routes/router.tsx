@@ -18,6 +18,7 @@ import { StatisticsPage } from '../pages/StatisticsPage'
 import axios, { AxiosError } from 'axios'
 import { ItesmPageError } from '../components/ItemsPageError'
 import { ErrorEmptyData, ErrorUnauthorized } from '../errors'
+import useSWR, { preload } from 'swr'
 
 export const router = createBrowserRouter([
   {
@@ -46,12 +47,14 @@ export const router = createBrowserRouter([
       if(error.response?.status === 401) { throw new ErrorUnauthorized}
       throw error
     }
-    const response = await axios.get<Resources<Item>>('/api/v1/items?page=1').catch(onError)
-    if(response.data.resources.length > 0) {
-      return response.data
-    } else {
-      throw new ErrorEmptyData
-    }
+    return preload('/api/v1/items?page=1',async(path)=>{
+      const response = await axios.get<Resources<Item>>(path).catch(onError)
+      if(response.data.resources.length > 0) {
+        return response.data
+      } else {
+        throw new ErrorEmptyData
+      }
+    })
   }},
   { path: '/items/new', element: <ItemsNewPage /> },
   { path:'/tags/news', element:<TagsNewPage />},

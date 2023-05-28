@@ -1,7 +1,7 @@
 import { Navigate, useLocation, useRouteError } from "react-router-dom";
 import { ErrorEmptyData, ErrorUnauthorized } from "../errors";
 
-export const ItesmPageError: React.FC =()=>{
+export const ItemsPageError: React.FC =()=>{
   const error = useRouteError()
   const e = error as Error
   const loc = useLocation()

@@ -1,8 +1,8 @@
 import useSWR from 'swr'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import pot from '../assets/images/pot.svg'
 import { useTitle } from '../hooks/useTitle'
-import { ajax } from '../lib/ajax'
+import { useAjax } from '../lib/ajax'
 import { Loading } from '../components/Loading'
 import { AddItemFloatButton } from '../components/AddItemFloatButton'
 
@@ -11,11 +11,14 @@ interface Props {
 }
 export const Home: React.FC<Props> = (props) => {
   useTitle(props.title)
-  const { data: meData, error: meError, isLoading: meLoading } = useSWR('/api/v1/me', async path =>
-    (await ajax.get<Resource<User>>(path)).data.resource
-  )
+  const { get } = useAjax({ showLoading: true, handleError: false })
+  const { data: meData, error: meError, isLoading: meLoading} = useSWR('/api/v1/me', async path => {
+    // 如果返回 403 就让用户先登录
+    const response = await get<Resource<User>>(path)
+    return response.data.resource
+  })
   const { data: itemsData, error: itemsError, isLoading: itemsLoading } = useSWR(meData ? '/api/v1/item' : null, async path =>
-    (await ajax.get<Resources<Item>>(path)).data
+    (await get<Resources<Item>>(path)).data
   )
   if (meLoading || itemsLoading) {
     return <Loading />

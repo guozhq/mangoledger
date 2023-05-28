@@ -15,5 +15,6 @@ declare module 'react' {
     'focus:shadow'?: boolean
     absolute?:boolean
     top?:string
+    left?: string
   }
 }

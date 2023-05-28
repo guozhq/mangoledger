@@ -19,6 +19,7 @@ import axios, { AxiosError } from 'axios'
 import { ItesmPageError } from '../components/ItemsPageError'
 import { ErrorEmptyData, ErrorUnauthorized } from '../errors'
 import useSWR, { preload } from 'swr'
+import { ErrorPage } from '../pages/ErrorPage'
 
 export const router = createBrowserRouter([
   {
@@ -57,7 +58,14 @@ export const router = createBrowserRouter([
       }
     })
   }},
-  { path: '/items/new', element: <ItemsNewPage /> },
+  { path: '/items/new', 
+    element: <ItemsNewPage />,
+    errorElement: <ErrorPage />,
+    loader: async()=>{
+      return preload('/api/v1/me', (path)=> axios.get<Resource<User>>(path)
+      .then(r=>r.data, e =>{throw new ErrorUnauthorized }))
+    }
+  },
   { path:'/tags/news', element:<TagsNewPage />},
   { path: '/tags/:id', element:<TagsEditPage />},
   { path: '/sign_in', element: <SignInPage /> },

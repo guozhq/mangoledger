@@ -1,5 +1,5 @@
 import type { FormEventHandler } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { TopNav } from '../components/TopNav'
@@ -17,6 +17,7 @@ export const SignInPage: React.FC = () => {
     setError(err.response?.data?.errors ?? {})
     throw error
   }
+  const [search] = useSearchParams()
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     const error = validate(data, [
@@ -34,7 +35,8 @@ export const SignInPage: React.FC = () => {
       const jwt = response.data.jwt
       console.log('jwt', jwt)
       localStorage.setItem('jwt', jwt)
-      nav('/items')
+      const from = search.get('from') || '/items'
+      nav(from)
     }
   }
   const sendSmsCode = async () =>{

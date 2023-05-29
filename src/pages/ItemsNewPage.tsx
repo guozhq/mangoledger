@@ -7,6 +7,7 @@ import { TopNav } from '../components/TopNav'
 import s from './ItemsNewPage.module.scss'
 import { Tags } from './ItemsNewPage/Tags'
 import { DateAndAmount } from './ItemsNewPage/DataAndAmount'
+import { useCreateItemStore } from '../stores/useCreateItemStore'
 
 
 export const ItemsNewPage: React.FC = () => {
@@ -14,12 +15,14 @@ export const ItemsNewPage: React.FC = () => {
     { key: 'expenses', text: '支出', element: <Tags kind="expenses" />},
     { key: 'income', text: '收入', element: <Tags kind="income" /> }]
   const [tabItem, setTabItem] = useState<Item['kind']>('expenses')
+  const {data, error, setData, setError}= useCreateItemStore()
   return (
     <div className={s.wrapper} hc-screen flex flex-col>
       <Gradient className="grow-0 shrink-0">
         <TopNav title="记一笔" icon={<Icon name="back" />}/>
       </Gradient>
-      <Tabs className="text-center grow-1 shrink-1 overflow-hidden" classPrefix='itemsNewPage' tabItems={tabItems} value={tabItem} onChange={(item) => { setTabItem(item) }} />
+      <Tabs className="text-center grow-1 shrink-1 overflow-hidden" classPrefix='itemsNewPage' tabItems={tabItems} value={data.kind!} onChange={(tabItem) => { setData({kind:tabItem}) }} />
+      <div text-28px>{JSON.stringify(data)}</div>
       <DateAndAmount className="grow-0 shrink-0" />
     </div>
   )

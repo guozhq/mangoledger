@@ -1,11 +1,8 @@
-import { Icon } from '../../components/Icon'
-import { usePopup } from '../../hooks/usePopup'
-import { DatePicker } from '../../components/DatePicker'
-import { time } from '../../lib/time'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 type Props = {
   className?: string
+  itemDate:ReactNode
 }
 export const DateAndAmount: React.FC<Props> = (props) => {
   const [output, _setOutput] = useState('0')
@@ -16,12 +13,6 @@ export const DateAndAmount: React.FC<Props> = (props) => {
     _setOutput(str)
     }
   const { className } = props
-  const [date, setDate] = useState(new Date())
-  const { toggle, popup, hide } = usePopup({
-    children: <DatePicker
-      onConfirm={d => { setDate(d); hide() }}
-      onCancel={() => hide()} />
-  })
   const append = (char:string) =>{
     switch(char){
       case '0':
@@ -43,12 +34,7 @@ export const DateAndAmount: React.FC<Props> = (props) => {
     <>
     <div className={className}>
       <div flex p-t-15px p-b-16px px-16px border-t-1px border-t="#ddd" gap-x-8px items-center>
-        <span flex gap-x-8px items-center onClick={toggle}>
-          <Icon name="calendar" className="w-24px h-24px grow-0 shrink-0" />
-          <span grow-0 shrink-0 color="#999">
-            {time(date).format() === time().format() ? '今天' : time(date).format()}
-          </span>
-        </span>
+        {props.itemDate}
         <code grow-1 shrink-1 text-right color="#53A867">{output}</code>
       </div>
       <div py-1px grid
@@ -70,7 +56,6 @@ export const DateAndAmount: React.FC<Props> = (props) => {
         <button row-start-3 col-start-4 row-end-5 col-end-5 bg="#5C33BE" color-white onClick={()=>append('1')}>提交</button>
       </div>
     </div>
-    {popup}
     </>
   )
 }

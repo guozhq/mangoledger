@@ -28,7 +28,8 @@ export const ItemsNewPage: React.FC = () => {
       <Tabs className="text-center grow-1 shrink-1 overflow-hidden" classPrefix='itemsNewPage' tabItems={tabItems} value={data.kind!} onChange={(tabItem) => { setData({kind:tabItem}) }} />
       <div text-28px>{JSON.stringify(data)}</div>
       <ItemAmount className="grow-0 shrink-0" 
-      itemDate={<ItemDate value={data.happen_at} onChange={(d) => setData({ happen_at: d })} />} />
+      itemDate={<ItemDate value={data.happen_at} onChange={(happen_at) => setData({ happen_at })} />}
+      value = {data.amount} onChange= {amount=>setData({amount})} />
     </div>
   )
 }

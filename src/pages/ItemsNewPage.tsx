@@ -6,7 +6,7 @@ import { Tabs } from '../components/Tabs'
 import { TopNav } from '../components/TopNav'
 import s from './ItemsNewPage.module.scss'
 import { Tags } from './ItemsNewPage/Tags'
-import { DateAndAmount } from './ItemsNewPage/DataAndAmount'
+import { ItemAmount } from './ItemsNewPage/ItemAmount'
 import { useCreateItemStore } from '../stores/useCreateItemStore'
 import { ItemDate } from './ItemsNewPage/ItemDate'
 
@@ -27,7 +27,8 @@ export const ItemsNewPage: React.FC = () => {
       </Gradient>
       <Tabs className="text-center grow-1 shrink-1 overflow-hidden" classPrefix='itemsNewPage' tabItems={tabItems} value={data.kind!} onChange={(tabItem) => { setData({kind:tabItem}) }} />
       <div text-28px>{JSON.stringify(data)}</div>
-      <DateAndAmount className="grow-0 shrink-0" itemDate={<ItemDate/>} />
+      <ItemAmount className="grow-0 shrink-0" 
+      itemDate={<ItemDate value={data.happen_at} onChange={(d) => setData({ happen_at: d })} />} />
     </div>
   )
 }

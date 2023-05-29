@@ -11,11 +11,14 @@ import { useCreateItemStore } from '../stores/useCreateItemStore'
 
 
 export const ItemsNewPage: React.FC = () => {
-  const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[] = [
-    { key: 'expenses', text: '支出', element: <Tags kind="expenses" />},
-    { key: 'income', text: '收入', element: <Tags kind="income" /> }]
-  const [tabItem, setTabItem] = useState<Item['kind']>('expenses')
   const {data, error, setData, setError}= useCreateItemStore()
+  const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[] = [
+    { key: 'expenses', text: '支出', 
+    element: <Tags kind="expenses" value={data.tag_ids} onChange={(ids)=>setData({tag_ids:ids})} />},
+    { key: 'income', text: '收入', 
+    element: <Tags kind="income" value={data.tag_ids} onChange={(ids)=>setData({tag_ids:ids})}/> }]
+  const [tabItem, setTabItem] = useState<Item['kind']>('expenses')
+  
   return (
     <div className={s.wrapper} hc-screen flex flex-col>
       <Gradient className="grow-0 shrink-0">

@@ -45,7 +45,6 @@ export const ItemsNewPage: React.FC = () => {
         <TopNav title="记一笔" icon={<Icon name="back" />}/>
       </Gradient>
       <Tabs className="text-center grow-1 shrink-1 overflow-hidden" classPrefix='itemsNewPage' tabItems={tabItems} value={data.kind!} onChange={(tabItem) => { setData({kind:tabItem}) }} />
-      <div text-28px>{JSON.stringify(data)}</div>
       <ItemAmount className="grow-0 shrink-0" 
       itemDate={<ItemDate value={data.happen_at} onChange={(happen_at) => setData({ happen_at })} />}
       value = {data.amount} onChange= {amount=>setData({amount})} onSubmit={onSubmit} />

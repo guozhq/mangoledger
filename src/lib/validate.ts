@@ -71,7 +71,7 @@ export const validate = <T extends Data>(formData: T, rules: Rules<T>) => {
   return error
 }
 function isEmpty(value: undefined | JSONValue | Data) {
-  return value === null || value === undefined || value === ''
+  return value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)
 }
 
 export function hasError(errors?: Record<string, string[]>) {

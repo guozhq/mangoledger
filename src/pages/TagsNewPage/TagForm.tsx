@@ -45,9 +45,9 @@ export const TagForm: React.FC<Props> =(props)=>{
   }
  return (<div>
   <form onSubmit={onSubmit} p-16px p-t-32px flex flex-col gap-y-8px>
-    <Input label='标签名' error={error.name?.[0]} value={data.name}
+    <Input type='text' label='标签名' error={error.name?.[0]} value={data.name}
           onChange={name => setData({ name })} />
-        <Input type='emoji' label={<span>图标 <span text-24px>{data.sign}</span></span>}
+    <Input type='emoji' label={<span leading-6>图标 <span text-24px leading-6>{data.sign}</span></span>}
           value={data.sign} onChange={sign => setData({ sign })}
           error={error.sign?.[0]} />  
       <p text-center p-b-24px>记账时长按标签，即可进行编辑</p>

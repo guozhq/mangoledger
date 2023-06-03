@@ -1,7 +1,6 @@
-import type { FormEventHandler, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { Gradient } from '../components/Gradient'
-import { Icon } from '../components/Icon'
 import { Tabs } from '../components/Tabs'
 import { TopNav } from '../components/TopNav'
 import s from './ItemsNewPage.module.scss'
@@ -11,6 +10,7 @@ import { useCreateItemStore } from '../stores/useCreateItemStore'
 import { ItemDate } from './ItemsNewPage/ItemDate'
 import { hasError, validate } from '../lib/validate'
 import { useAjax } from '../lib/ajax'
+import { BackIcon } from '../components/BackIcon'
 
 
 export const ItemsNewPage: React.FC = () => {
@@ -42,7 +42,7 @@ export const ItemsNewPage: React.FC = () => {
   return (
     <div className={s.wrapper} hc-screen flex flex-col>
       <Gradient className="grow-0 shrink-0">
-        <TopNav title="记一笔" icon={<Icon name="back" />}/>
+        <TopNav title="记一笔" icon={<BackIcon />}/>
       </Gradient>
       <Tabs className="text-center grow-1 shrink-1 overflow-hidden" classPrefix='itemsNewPage' tabItems={tabItems} value={data.kind!} onChange={(tabItem) => { setData({kind:tabItem}) }} />
       <ItemAmount className="grow-0 shrink-0" 

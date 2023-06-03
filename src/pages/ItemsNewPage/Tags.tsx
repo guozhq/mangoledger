@@ -3,7 +3,6 @@ import { Icon } from "../../components/Icon";
 import { useAjax } from "../../lib/ajax";
 import useSWRInfinite from "swr/infinite";
 import styled from "styled-components";
-import {TouchEvent, useRef} from 'react'
 import { LongPressable } from "../../components/LongPressable";
 
 type Props = {
@@ -15,7 +14,6 @@ const Div = styled.div`
   padding:16px;
   text-align: center;
 `
-
 export const Tags: React.FC<Props> =(props)=>{
   const {kind} = props
   const getKey = (pageIndex: number, prev: Resources<Item>) => {
@@ -50,7 +48,7 @@ export const Tags: React.FC<Props> =(props)=>{
       <ol grid grid-cols="[repeat(auto-fit,48px)]" justify-center gap-x-32px
       gap-y-16px py-16px px-8px>
         <li>
-          <Link to={`/tags/news?kind=${kind}`}>
+          <Link to={`/tags/new?kind=${kind}`}>
           <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
             flex justify-center items-center text-24px color="#8F4CD7"
             ><Icon name="add" className="text-32px" /></span>

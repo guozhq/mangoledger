@@ -5,6 +5,7 @@ import { validate, hasError, FormError } from "../../lib/validate";
 import { useCreateTagStore } from "../../stores/useCreateTagStore";
 import { useAjax } from "../../lib/ajax";
 import { AxiosError } from "axios";
+import useSWR from "swr";
 
 type Props={
   type: "create" | "edit"
@@ -12,6 +13,8 @@ type Props={
 export const TagForm: React.FC<Props> =(props)=>{
   const {type}=props
   const { data, error, setData, setError } = useCreateTagStore()
+  const nav = useNavigate()
+  const {post,patch, get} = useAjax({showLoading:true, handleError:true})
   const [searchParams] = useSearchParams()
   const kind = searchParams.get('kind') ?? ''
   useEffect(() => {
@@ -25,11 +28,15 @@ export const TagForm: React.FC<Props> =(props)=>{
     setData({ kind })
   }, [searchParams])
   const params = useParams()
-  useEffect(()=>{
-    if(type !== 'edit'){return}
-    const id = params.id
-    if(!id) {throw new Error('id必填')}
-  },[])
+  const id = params.id
+  const {data:tag} = useSWR(id ? `/api/v1/tags/${id}` : null, async(path)=>
+      (await get<Resource<Tag>>(path)).data.resource
+  )
+  useEffect(() => {
+    if(tag){
+      setData(tag)
+    }
+  },[tag])
   const onSubmitError = (error:AxiosError<{errors: FormError<typeof data>}>) =>{
     if(error.response){
       const {status} = error.response
@@ -40,8 +47,6 @@ export const TagForm: React.FC<Props> =(props)=>{
     }
     throw error
   }
-  const {post} = useAjax({showLoading:true, handleError:true})
-  const nav = useNavigate()
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault()
     const newError = validate(data, [
@@ -53,22 +58,23 @@ export const TagForm: React.FC<Props> =(props)=>{
     setError(newError)
     if (!hasError(newError)) {
       // 发起 AJAX 请求
-      const response = await post<Resource<Tag>>('/api/v1/tags',data).catch(onSubmitError)
+      console.log(type)
+      const promise = type === 'create' 
+        ? post<Resource<Tag>>('/api/v1/tags',data)
+        : patch<Resource<Tag>>(`/api/v1/tags/${id}`,data)
+      const response = await promise.catch(onSubmitError)
       setData(response.data.resource)
       nav(`/items/new?kind=${encodeURIComponent(kind)}`)
     }
   }
  return (<div>
   <form onSubmit={onSubmit} p-16px p-t-32px flex flex-col gap-y-8px>
-    <Input type='text' label='标签名' error={error.name?.[0]} value={data.name}
-          onChange={name => setData({ name })} />
-    <Input type='emoji' label={<span leading-6>图标 <span text-24px leading-6>{data.sign}</span></span>}
-          value={data.sign} onChange={sign => setData({ sign })}
-          error={error.sign?.[0]} />  
-      <p text-center p-b-24px>记账时长按标签，即可进行编辑</p>
-      <div>
-        <button j-btn>确定</button>
-      </div>
-    </form>
+    <Input type='text' label='标签名' error={error.name?.[0]} value={data.name} onChange={name => setData({ name })} />
+    <Input type='emoji' label={<span leading-6>图标 <span text-24px leading-6>{data.sign}</span></span>} value={data.sign} onChange={sign => setData({ sign })} error={error.sign?.[0]} />  
+    <p text-center p-b-24px>记账时长按标签，即可进行编辑</p>
+    <div>
+      <button j-btn>确定</button>
+    </div>
+  </form>
  </div>)
 };

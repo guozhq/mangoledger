@@ -1,18 +1,26 @@
 import { Tabs } from './Tabs'
 
-export type TimeRange = 'thisMonth' | 'lastMonth' | 'thisYear' | 'custom'
-interface Props {
+export type TimeRange =
+  | 'thisMonth'
+  | 'lastMonth'
+  | 'thisYear'
+  | 'custom'
+  | 'twoMonthsAgo'
+  | 'threeMonthsAgo'
+type Props = {
   selected: TimeRange
   onSelect: (selected: TimeRange) => void
+  timeRanges?:{ key:TimeRange; text:string}[]
 }
-const TimeRanges: { key: TimeRange; text: string }[] = [
+const defaultTimeRanges: { key: TimeRange; text: string }[] = [
   { key: 'thisMonth', text: '本月' },
   { key: 'lastMonth', text: '上月' },
   { key: 'thisYear', text: '今年' },
   { key: 'custom', text: '自定义时间' },
 ]
-export const TimeRangePicker: React.FC<Props> = ({ selected, onSelect }) => {
+export const TimeRangePicker: React.FC<Props> = (props) => {
+  const {selected, onSelect, timeRanges=defaultTimeRanges} = props
   return (
-    <Tabs tabItems={TimeRanges} value={selected} onChange={onSelect} />
+    <Tabs tabItems={timeRanges} value={selected} onChange={onSelect} />
   )
 }

@@ -23,6 +23,9 @@ export class Time{
   get lastDayOfMonth() {
     return new Time(new Date(this.year, this.month - 1 + 1, 0))
   }
+  get firstDayOfMonth(){
+    return new Time(new Date(this.year, this.month - 1, 1))
+  }
   /**
    * 格式化输出
    * @param pattern 目前只支持 yyyy MM dd HH mm ss fff

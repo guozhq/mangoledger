@@ -12,6 +12,7 @@ import { hasError, validate } from '../lib/validate'
 import { useAjax } from '../lib/ajax'
 import { BackIcon } from '../components/BackIcon'
 import { useNavigate } from 'react-router-dom'
+import { time } from '../lib/time'
 
 
 export const ItemsNewPage: React.FC = () => {
@@ -38,6 +39,7 @@ export const ItemsNewPage: React.FC = () => {
       window.alert(message)
     }else{
       await post<Resource<Item>>('/api/v1/items', data)
+      setData({amount:0, happen_at:time().isoString})
       nav('/items')
     }
   }

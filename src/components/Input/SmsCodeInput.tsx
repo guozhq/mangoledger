@@ -5,10 +5,11 @@ type Props = {
   placeholder?: string
   onChange?:(value:string)=>void
   request?:()=> Promise<unknown>
+  className?: string
 }
 const maxCount = 60
 export const SmsCodeInput: React.FC<Props>=(props)=>{
-  const { value, placeholder, onChange, request} = props
+  const { className, value, placeholder, onChange, request} = props
   const [started, setStarted] = useState<Date>()
   const [count, setCount] = useState(maxCount)
   const timer = useRef<number>()

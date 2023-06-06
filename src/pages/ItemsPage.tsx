@@ -9,10 +9,12 @@ import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { ItemsList } from './ItemsPage/ItemsList'
 import { ItemsSummary } from './ItemsPage/ItemsSummary'
+import { timeRangeToStartAndEnd } from '../lib/timeRangeToStartAndEnd'
 
 export const ItemsPages: React.FC = () => {
   const [timeRange, setTimeRange] = useState<TimeRange>('thisMonth')
   const { visible, setVisible } = useMenuStore()
+  const {start, end} = timeRangeToStartAndEnd(timeRange)
   return (
     <div>
       <Gradient>
@@ -23,7 +25,7 @@ export const ItemsPages: React.FC = () => {
         <TimeRangePicker selected={timeRange} onSelect={setTimeRange} />
       </Gradient>
       <ItemsSummary />
-      <ItemsList />
+      <ItemsList start={start} end={end} />
       <AddItemFloatButton />
       <TopMenu visible={visible} onClickMask={() => { setVisible(false) }}/>
     </div>

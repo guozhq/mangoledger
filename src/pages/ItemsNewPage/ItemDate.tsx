@@ -21,7 +21,7 @@ export const ItemDate: React.FC<Props> =(props)=>{
     <span flex gap-x-8px items-center onClick={toggle}>
     <Icon name="calendar" className="w-24px h-24px grow-0 shrink-0" />
     <span grow-0 shrink-0 color="#999">
-      {time(value).format() === time().format() ? '今天' : time(value).format()}
+      {time(value).format('yyyy-MM-dd HH:mm') === time().format('yyyy-MM-dd HH:mm') ? '今天' : time(value).format('yyyy-MM-dd HH:mm')}
     </span>
   </span>
   </> 

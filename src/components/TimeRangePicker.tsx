@@ -3,6 +3,7 @@ import { usePopup } from '../hooks/usePopup'
 import { Time, time } from '../lib/time'
 import { Tabs } from './Tabs'
 import { Input } from './Input'
+import { Gradient } from './Gradient'
 
 export type TimeRange = {
   start: Time
@@ -49,7 +50,9 @@ export const TimeRangePicker: React.FC<Props> = (props) => {
   const {popup, show, hide} = usePopup({
     zIndex: 'var(--z-dialog)',
     children: <div>
-      <header text-18px bg="[var(--color-purple)]" text-white py-13px p-l-16px>请选择时间</header>
+      <Gradient>
+        <header text-18px  text-white py-13px p-l-16px>请选择时间</header>
+      </Gradient>
       <main p-16px>
         <Input type="date" disableError label="开始时间" value={start} onChange={d => setStart(d)} />
         <Input type="date" className="mt-8px" disableError label="结束时间" value={end} onChange={d => setEnd(d)} />

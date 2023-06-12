@@ -50,7 +50,7 @@ export const Tags: React.FC<Props> =(props)=>{
         <li>
           <Link to={`/tags/new?kind=${kind}`}>
           <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
-            flex justify-center items-center text-24px color="#8F4CD7"
+            flex justify-center items-center text-24px color="#9ccb3b"
             ><Icon name="add" className="text-32px" /></span>
           </Link>
         </li>
@@ -61,7 +61,7 @@ export const Tags: React.FC<Props> =(props)=>{
               onEnd={() => { nav(`/tags/${tag.id}`) }}>
               {props.value?.includes(tag.id)
               ? <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
-                flex justify-center items-center text-24px b-solid b-1 b="#8F4CD7">{tag.sign}</span>
+                flex justify-center items-center text-24px b-solid b-1 b="#9ccb3b">{tag.sign}</span>
               : <span block w-48px h-48px rounded="24px" bg="#EFEFEF"
                 flex justify-center items-center text-24px b-solid b-1 b-transparent>{tag.sign}</span>
               }

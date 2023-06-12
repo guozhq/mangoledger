@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import useSWR from 'swr'
 import { useAjax } from '../../lib/ajax'
 import { comfirmable } from '../../lib/comfirmable'
+import { Gradient } from '../Gradient'
 
 interface Props {
   className?: string
@@ -19,7 +20,8 @@ export const CurrentUser: React.FC<Props> = ({ className }) => {
     window.location.reload()
   })
   return (
-    <div block className={className} bg="#5C33BE" text-white w="100%" pt-32px pb-44px px-16px>
+    <Gradient>
+    <div block className={className} text-white w="100%" pt-32px pb-44px px-16px>
       {error
         ? (
           <Link to={`/sign_in?from=${from}`} >
@@ -35,5 +37,6 @@ export const CurrentUser: React.FC<Props> = ({ className }) => {
         )
       }
     </div >
+    </Gradient>
   )
 }

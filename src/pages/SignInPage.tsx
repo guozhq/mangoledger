@@ -57,8 +57,8 @@ export const SignInPage: React.FC = () => {
         <TopNav title="登录" icon={<Icon name="back" />}/>
       </Gradient>
       <div text-center pt-40px pb-16px>
-        <Icon name="logo" className='w-64px h-68px' />
-        <h1 text-32px color="#7878FF" font-bold>山竹记账</h1>
+        <Icon name="mango" className='w-64px h-68px' />
+        <h1 text-32px color="#9ccb3b" font-bold>芒果账本</h1>
       </div>
       <form j-form onSubmit={onSubmit}>
         <Input type="text" label='邮箱地址' placeholder='请输入邮箱，然后点击发送验证码'
